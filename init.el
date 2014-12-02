@@ -53,28 +53,36 @@
       )
 
 ;; Install these packages!
-(defvar required-packages '(helm helm-ls-git
-                magit
-                paredit
-                idle-highlight-mode
-                find-file-in-project
-		fastnav
-		ess
-                )
+(defvar required-packages '(helm
+			    helm-ls-git
+			    magit
+			    paredit
+			    idle-highlight-mode
+			    find-file-in-project
+			    fastnav
+			    ess
+                            ample-zen-theme
+			    )
   )
 ;; Don't config these, they require special sauce.
 (defvar noinst-packages '(helm
 			  ess
-              )
+                          ample-zen-theme
+			  )
   )
 
 ;; Apparently ELPA isn't in previous versions. Forget those versions.
 (when (>= emacs-major-version 24)
   (package-initialize)
+
+  (unless package-archive-contents
+    (package-refresh-contents))
+
   (dolist (p  required-packages)
     (when (not (package-installed-p p)) (package-install p))
     (if (not (memq p noinst-packages)) (require p))
     )
+
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -121,38 +129,39 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                     Mac Stuff I guess
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq mac-function-modifier 'hyper)  ; make Fn key do Hyper
-(global-set-key (kbd "H-m") 'eshell)
-(global-set-key (kbd "H-<right>") 'other-window)
+(if (eq system-type 'darwin)
+    (setq mac-function-modifier 'hyper)  ; make Fn key do Hyper
+    (global-set-key (kbd "H-m") 'eshell)
+    (global-set-key (kbd "H-<right>") 'other-window)
 
 
-;; VIM bindings with hyper! Finally did this... cause EVIL is too hard
-(global-set-key (kbd "H-j") 'next-line)
-(global-set-key (kbd "H-k") 'previous-line)
-(global-set-key (kbd "H-h") 'backward-word)
-(global-set-key (kbd "H-l") 'forward-word)
+    ;; VIM bindings with hyper! Finally did this... cause EVIL is too hard
+    (global-set-key (kbd "H-j") 'next-line)
+    (global-set-key (kbd "H-k") 'previous-line)
+    (global-set-key (kbd "H-h") 'backward-word)
+    (global-set-key (kbd "H-l") 'forward-word)
 
-(defun copy-line (arg)
-      "Copy lines (as many as prefix argument) in the kill ring"
-      (interactive "p")
-      (kill-ring-save (line-beginning-position)
-                      (+ -1 (line-beginning-position (+ 1 arg)))
-		      ))
-(defun vi-open-line-below ()
-  "Insert a newline below the current line and put point at beginning."
-  (interactive)
-  (unless (eolp)
-    (end-of-line))
-  (newline-and-indent))
-(defun vi-paste-below ()
-  (interactive)
-  (vi-open-line-below)
-  (yank))
-(global-set-key (kbd "H-y") 'copy-line)
-(global-set-key (kbd "H-d") 'kill-whole-line)
-(global-set-key (kbd "H-p") 'vi-paste-below)
-(global-set-key (kbd "H-o") 'vi-open-line-below)
-
+    (defun copy-line (arg)
+          "Copy lines (as many as prefix argument) in the kill ring"
+          (interactive "p")
+          (kill-ring-save (line-beginning-position)
+                  (+ -1 (line-beginning-position (+ 1 arg)))
+                  ))
+    (defun vi-open-line-below ()
+      "Insert a newline below the current line and put point at beginning."
+      (interactive)
+      (unless (eolp)
+        (end-of-line))
+      (newline-and-indent))
+    (defun vi-paste-below ()
+      (interactive)
+      (vi-open-line-below)
+      (yank))
+    (global-set-key (kbd "H-y") 'copy-line)
+    (global-set-key (kbd "H-d") 'kill-whole-line)
+    (global-set-key (kbd "H-p") 'vi-paste-below)
+    (global-set-key (kbd "H-o") 'vi-open-line-below)
+)
 
 
 
