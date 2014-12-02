@@ -129,40 +129,41 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                     Mac Stuff I guess
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(if (eq system-type 'darwin)
-    (setq mac-function-modifier 'hyper)  ; make Fn key do Hyper
-    (global-set-key (kbd "H-m") 'eshell)
-    (global-set-key (kbd "H-<right>") 'other-window)
-
-
-    ;; VIM bindings with hyper! Finally did this... cause EVIL is too hard
-    (global-set-key (kbd "H-j") 'next-line)
-    (global-set-key (kbd "H-k") 'previous-line)
-    (global-set-key (kbd "H-h") 'backward-word)
-    (global-set-key (kbd "H-l") 'forward-word)
-
-    (defun copy-line (arg)
-          "Copy lines (as many as prefix argument) in the kill ring"
-          (interactive "p")
-          (kill-ring-save (line-beginning-position)
-                  (+ -1 (line-beginning-position (+ 1 arg)))
-                  ))
-    (defun vi-open-line-below ()
-      "Insert a newline below the current line and put point at beginning."
-      (interactive)
-      (unless (eolp)
-        (end-of-line))
-      (newline-and-indent))
-    (defun vi-paste-below ()
-      (interactive)
-      (vi-open-line-below)
-      (yank))
-    (global-set-key (kbd "H-y") 'copy-line)
-    (global-set-key (kbd "H-d") 'kill-whole-line)
-    (global-set-key (kbd "H-p") 'vi-paste-below)
-    (global-set-key (kbd "H-o") 'vi-open-line-below)
+(cond
+ ((eq system-type 'darwin)
+  (setq mac-function-modifier 'hyper)  ; make Fn key do Hyper
+  (global-set-key (kbd "H-m") 'eshell)
+  (global-set-key (kbd "H-<right>") 'other-window)
+  
+  
+  ;; VIM bindings with hyper! Finally did this... cause EVIL is too hard
+  (global-set-key (kbd "H-j") 'next-line)
+  (global-set-key (kbd "H-k") 'previous-line)
+  (global-set-key (kbd "H-h") 'backward-word)
+  (global-set-key (kbd "H-l") 'forward-word)
+  
+  (defun copy-line (arg)
+    "Copy lines (as many as prefix argument) in the kill ring"
+    (interactive "p")
+    (kill-ring-save (line-beginning-position)
+		    (+ -1 (line-beginning-position (+ 1 arg)))
+		    ))
+  (defun vi-open-line-below ()
+    "Insert a newline below the current line and put point at beginning."
+    (interactive)
+    (unless (eolp)
+      (end-of-line))
+    (newline-and-indent))
+  (defun vi-paste-below ()
+    (interactive)
+    (vi-open-line-below)
+    (yank))
+  (global-set-key (kbd "H-y") 'copy-line)
+  (global-set-key (kbd "H-d") 'kill-whole-line)
+  (global-set-key (kbd "H-p") 'vi-paste-below)
+  (global-set-key (kbd "H-o") 'vi-open-line-below)
+  )
 )
-
 
 
 
