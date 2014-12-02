@@ -12,7 +12,10 @@
 ;;                     STARTUP INIT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Disable startscreen, drop into scratch.
-(setq inhibit-startup-screen t)  
+(setq inhibit-startup-screen t)
+
+;; Hide annoying toolbar.
+(tool-bar-mode -1)
 
 ;; Create variable dotfiles-dir that points to .emacs.d or equivalent.
 (setq dotfiles-dir (file-name-directory (or load-file-name (buffer-file-name))))
