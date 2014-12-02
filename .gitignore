@@ -1,3 +1,11 @@
+# project specific stuff
+/elpa/
+/themes/
+/packages/
+/eshell/
+
+# Elisp stuff
+*~$
 # Compiled
 *.elc
 
