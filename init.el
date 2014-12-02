@@ -11,11 +11,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                     STARTUP INIT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Gotta Loads
+(require 'uniquify)
+
+
 ;; Disable startscreen, drop into scratch.
 (setq inhibit-startup-screen t)
 
 ;; Hide annoying toolbar.
 (tool-bar-mode -1)
+
+;; Make tramp be trampy
+(require 'tramp)
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 ;; Create variable dotfiles-dir that points to .emacs.d or equivalent.
 (setq dotfiles-dir (file-name-directory (or load-file-name (buffer-file-name))))
@@ -26,6 +34,26 @@
 ;; Start server so good stuff happens?
 (server-start)
 (setq server-name "main")
+
+
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                     Universal Key Remapping
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-set-key (kbd "C-z") 'undo)
+
+
+
+
+
+
 
 
 
