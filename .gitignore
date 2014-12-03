@@ -3,6 +3,7 @@
 /themes/*
 /packages/*
 /eshell/
+/tramp
 
 # Elisp stuff
 *~$

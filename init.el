@@ -28,8 +28,8 @@
 ;; Create variable dotfiles-dir that points to .emacs.d or equivalent.
 (setq dotfiles-dir (file-name-directory (or load-file-name (buffer-file-name))))
 
-;; Add theme directory
-(add-to-list 'custom-theme-load-path (concat dotfiles-dir "themes"))
+;; Add theme directory for themes installed with elpa
+(add-to-list 'custom-theme-load-path (concat dotfiles-dir "elpa"))
 
 ;; Start server so good stuff happens?
 (server-start)
@@ -66,9 +66,10 @@
 ;; Add the packages subdirectory to the load path.
 ;; I know most people use 'lisp' for libraries... I'm contrarian
  (let ((default-directory (concat dotfiles-dir "packages")))
+   (add-to-list 'load-path default-directory)
    (setq load-path
          (append
-          (let ((load-path (copy-sequence load-path))) ;; Shadow
+          (let ((load-path (copy-sequence load-path)))
             (normal-top-level-add-subdirs-to-load-path))
           load-path)
      )
@@ -84,15 +85,16 @@
       )
 
 ;; Install these packages!
-(defvar required-packages '(helm
-			    helm-ls-git
-			    magit
-			    paredit
-			    idle-highlight-mode
+(defvar required-packages '(ample-zen-theme
+			    ess
 			    find-file-in-project
 			    fastnav
-			    ess
-                            ample-zen-theme
+                            idle-highlight-mode
+			    helm
+			    helm-ls-git
+			    magit
+			    org-ac
+			    paredit
 			    )
   )
 ;; Don't config these, they require special sauce.
@@ -120,8 +122,12 @@
 ;;                     HELM INIT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'helm-config)  ;; Load pacage
+(require 'helm-config)  ;; Load package
 (helm-mode 1)           ;; and turn it on
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+
  ;; From helm wiki for eshell completion
 (add-hook 'eshell-mode-hook 
           #'(lambda ()
@@ -151,6 +157,8 @@
       helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
       helm-ff-file-name-history-use-recentf t)
+
+
 
 
 
@@ -209,7 +217,9 @@
    (idle-highlight-mode t))
 
 (add-hook 'emacs-lisp-mode-hook 'idle-highlight-hook)
-(add-hook 'org-mode-hook 'my-coding-hook)
+;; (add-hook 'org-mode-hook 'my-coding-hook)
+
+
 
 
 
@@ -218,7 +228,34 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               ORG MODE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Autocomplete for orgmode
+(require 'org-ac)
+(org-ac/config-default)
+
 (setq org-support-shift-select t)
+
+(setq ess-sas-submit-command-options "")
+
+;; (org-babel-do-load-languages
+;;  'org-babel-load-languages
+;;  '(
+;;    (clojure . t)
+;;    (ditaa . t)
+;;    (emacs-lisp . t)
+;;    (haskell . t)
+;;    (js . t)
+;;    (perl . t)
+;;    (python . t)
+;;    (R . t)
+;;    (ruby . t)
+;; ;;   (sas . t)  
+;;    (sh . t)
+;;    (sql . t)
+;; ;;   (stata . t)
+;;    )
+;;  )
+
+
 
 
 
