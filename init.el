@@ -86,22 +86,22 @@
 
 ;; Install these packages!
 (defvar required-packages '(ample-zen-theme
-			    ess
-			    find-file-in-project
-			    fastnav
+                ess
+                find-file-in-project
+                fastnav
                             idle-highlight-mode
-			    helm
-			    helm-ls-git
-			    magit
-			    org-ac
-			    paredit
-			    )
+                helm
+                helm-ls-git
+                magit
+                org-ac
+                paredit
+                )
   )
 ;; Don't config these, they require special sauce.
 (defvar noinst-packages '(helm
-			  ess
+              ess
                           ample-zen-theme
-			  )
+              )
   )
 
 ;; Apparently ELPA isn't in previous versions. Forget those versions.
@@ -185,8 +185,8 @@
     "Copy lines (as many as prefix argument) in the kill ring"
     (interactive "p")
     (kill-ring-save (line-beginning-position)
-		    (+ -1 (line-beginning-position (+ 1 arg)))
-		    ))
+            (+ -1 (line-beginning-position (+ 1 arg)))
+            ))
   (defun vi-open-line-below ()
     "Insert a newline below the current line and put point at beginning."
     (interactive)
@@ -275,9 +275,9 @@
   )
 
 (add-hook 'ess-mode-hook
-	  '(lambda()
-	     (local-set-key [(shift return)] 'custom-ess-launch-hook))
-	  )
+      '(lambda()
+         (local-set-key [(shift return)] 'custom-ess-launch-hook))
+      )
 
 ;;      (require 'ess-site)
 
@@ -313,6 +313,11 @@
 ;;               THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (load-theme 'ample-zen t)
+(set-frame-parameter (selected-frame) 'alpha '(85 50))
+(add-to-list 'default-frame-alist '(alpha 85 50))
+
+;; My personal preference is to use line numbers
+(global-linum-mode 1)
 
 
 
