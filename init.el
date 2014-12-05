@@ -234,7 +234,55 @@
 
 (setq org-support-shift-select t)
 
-(setq ess-sas-submit-command-options "")
+;; SAS Stuff
+(setq-default ess-sas-submit-command-options "-noovp -nosyntaxcheck")
+
+(defun launch-ess-sas-interactive ()
+  (interactive)
+  (delete-other-windows)
+  (setq w1 (selected-window))
+  (setq w1name (buffer-name))
+  (setq w2 (split-window w1 nil t))
+  (if (not (member "*iESS[SAS]*" (mapcar (function buffer-name) (buffer-list))))
+      (ess-sas-interactive))
+  (set-window-buffer w2 "*iESS[SAS]*")
+  (set-window-buffer w1 w1name))
+
+;; STATA Stuff
+;; (defun launch-ess-stata-interactive ()
+;;   (interactive)
+;;   (delete-other-windows)
+;;   (setq w1 (selected-window))
+;;   (setq w1name (buffer-name))
+;;   (setq w2 (split-window w1 nil t))
+;;   (if (not (member "*stata*" (mapcar (function buffer-name) (buffer-list))))
+;;       (stata))
+;;   (set-window-buffer w2 "*stata*")
+;;   (set-window-buffer w1 w1name))
+
+;; ESS Stuff
+(defun custom-ess-launch-hook ()
+  (interactive)
+  (cond
+   ((equal ess-language "SAS")
+    (launch-ess-sas-interactive)) ; Launch SAS
+   ;; ((equal ess-language "STA")
+   ;;  (launch-ess-stata-interactive)) ; Launch STATA
+   )
+  (if (and transient-mark-mode mark-active)
+      (call-interactively 'ess-eval-region)
+    (call-interactively 'ess-eval-line-and-step))
+  )
+
+(add-hook 'ess-mode-hook
+	  '(lambda()
+	     (local-set-key [(shift return)] 'custom-ess-launch-hook))
+	  )
+
+;;      (require 'ess-site)
+
+;ESS hangs if you eval long statements;
+(setq ess-eval-visibly-p nil)
 
 ;; (org-babel-do-load-languages
 ;;  'org-babel-load-languages
