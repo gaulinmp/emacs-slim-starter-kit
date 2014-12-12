@@ -12,3 +12,4 @@
 
 # Packaging
 .cask
+*.dat
