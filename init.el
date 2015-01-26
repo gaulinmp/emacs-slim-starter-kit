@@ -237,7 +237,7 @@
 (setq org-support-shift-select t)
 
 ;; SAS Stuff
-(setq-default ess-sas-submit-command-options "-noovp -nosyntaxcheck")
+(setq-default ess-sas-submit-command-options "-noovp -nosyntaxcheck -autoexec /home/gaulinmp/autoexec_lib.sas")
 
 (defun launch-ess-sas-interactive ()
   (interactive)
