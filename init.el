@@ -14,7 +14,6 @@
 ;; Gotta Loads
 (require 'uniquify)
 
-
 ;; Disable startscreen, drop into scratch.
 (setq inhibit-startup-screen t)
 
@@ -86,30 +85,32 @@
 
 ;; Install these packages!
 (defvar required-packages '(ample-zen-theme
-                ess
-                find-file-in-project
-                fastnav
-                            idle-highlight-mode
-                helm
-                helm-ls-git
-                magit
-                org-ac
-                paredit
-                elpy
-                )
+			    ess
+			    find-file-in-project
+			    fastnav
+			    idle-highlight-mode
+			    helm
+			    helm-ls-git
+			    magit
+			    org-ac
+			    paredit
+			    yasnippet
+			    yasnippet-bundle
+;;			    elpy
+			    )
   )
 ;; Don't config these, they require special sauce.
 (defvar noinst-packages '(helm
-              ess
+			  ess
                           ample-zen-theme
-                          elpy
-              )
+;;                          elpy
+			  )
   )
 
 ;; Apparently ELPA isn't in previous versions. Forget those versions.
 (when (>= emacs-major-version 24)
   (package-initialize)
-
+  
   (unless package-archive-contents
     (package-refresh-contents))
 
@@ -314,8 +315,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               ELPY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(elpy-config)
-(elpy-use-ipython)
+;;(elpy-enable)
+;;(elpy-use-ipython)
 
 
 
