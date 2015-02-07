@@ -97,14 +97,13 @@
 			    yasnippet
 			    yasnippet-bundle
 			    multiple-cursors
-;;			    elpy
+			    multi-term
 			    )
   )
 ;; Don't config these, they require special sauce.
 (defvar noinst-packages '(helm
 			  ess
                           ample-zen-theme
-;;                          elpy
 			  )
   )
 
@@ -236,6 +235,8 @@
 (require 'org-ac)
 (org-ac/config-default)
 
+(setq org-export-odt-preferred-output-format "docx")
+
 (setq org-support-shift-select t)
 
 ;; SAS Stuff
@@ -314,10 +315,9 @@
 
  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;               ELPY
+;;               MULTI-TERM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;(elpy-enable)
-;;(elpy-use-ipython)
+(setq multi-term-program "/usr/bin/zsh")
 
 
 
