@@ -34,7 +34,11 @@
 (server-start)
 (setq server-name "main")
 
+;; Try out desktop save mode
+(desktop-save-mode 1)
 
+;; Get rid of annoying tilde backup files
+(setq make-backup-files nil) 
 
 
 
@@ -77,7 +81,7 @@
 ;; Set the package archive URLs to be better than the default.
 (setq package-archives '(
                          ("marmalade" . "https://marmalade-repo.org/packages/")
-;;                         ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                         )
@@ -98,12 +102,15 @@
 			    yasnippet-bundle
 			    multiple-cursors
 			    multi-term
+			    neotree
+			    auctex
 			    )
   )
 ;; Don't config these, they require special sauce.
 (defvar noinst-packages '(helm
 			  ess
                           ample-zen-theme
+			  auctex
 			  )
   )
 
@@ -312,6 +319,13 @@
 
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;               AUCTEX
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
 
  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -319,6 +333,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq multi-term-program "/usr/bin/zsh")
 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;               NEO TREE
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-set-key [f8] 'neotree-toggle)
 
 
 
