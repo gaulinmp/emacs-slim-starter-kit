@@ -4,6 +4,7 @@
 /packages/*
 /eshell/
 /tramp
+/desktop/
 
 # Elisp stuff
 *~$
