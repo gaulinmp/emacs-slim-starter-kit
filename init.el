@@ -31,11 +31,30 @@
 (add-to-list 'custom-theme-load-path (concat dotfiles-dir "elpa"))
 
 ;; Start server so good stuff happens?
-(server-start)
+(load "server")
+(unless (server-running-p) (server-start))
 (setq server-name "main")
 
 ;; Try out desktop save mode
+;; Automatically save and restore sessions
+(setq desktop-dirname             "~/.emacs.d/desktop/"
+      desktop-base-file-name      "emacs.desktop"
+      desktop-base-lock-name      "lock"
+      desktop-path                (list desktop-dirname)
+      desktop-save                t
+;;    desktop-files-not-to-save   "^$" ;reload tramp paths
+      desktop-buffers-not-to-save (concat "\\("
+					  "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+					  "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+					  "\\)$")
+      desktop-load-locked-desktop nil
+      )
 (desktop-save-mode 1)
+(add-to-list 'desktop-modes-not-to-save 'dired-mode)
+(add-to-list 'desktop-modes-not-to-save 'Info-mode)
+(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+(add-to-list 'desktop-modes-not-to-save 'DocView-mode)
 
 ;; Get rid of annoying tilde backup files
 (setq make-backup-files nil) 
