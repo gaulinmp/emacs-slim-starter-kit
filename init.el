@@ -242,6 +242,10 @@
 (require 'org-ac)
 (org-ac/config-default)
 
+;; Word wrap org mode!
+(setq org-startup-truncated nil)
+
+;; C-c C-e o exports to docx by default. Must install libreoffice.
 (setq org-export-odt-preferred-output-format "docx")
 
 (setq org-support-shift-select t)
