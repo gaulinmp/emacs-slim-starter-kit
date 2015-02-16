@@ -246,6 +246,7 @@
    (idle-highlight-mode t))
 
 (add-hook 'emacs-lisp-mode-hook 'idle-highlight-hook)
+(add-hook 'python-mode 'idle-highlight-hook)
 ;; (add-hook 'org-mode-hook 'my-coding-hook)
 
 
@@ -356,7 +357,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq multi-term-program "/usr/bin/zsh")
 
+(defun init-multi-term (new-name dir)
+  (let ((mt-buffer-name "*terminal<1>*"))
+    (multi-term)
+    (comint-send-string (get-buffer-process mt-buffer-name) (format "cd %s\n" dir))
+    (with-current-buffer mt-buffer-name
+      (rename-buffer new-name))))
 
+(defun init-multi-terms ()
+  (interactive)
+  (init-multi-term "*zsh*" "~/")
+  (init-multi-term "*zsh:python*" "~pydir/")
+  (init-multi-term "*zsh:school*" "~proj/")
+)
+(add-hook 'emacs-startup-hook 'init-multi-terms)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               NEO TREE
