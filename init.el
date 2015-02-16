@@ -35,27 +35,6 @@
 (unless (server-running-p) (server-start))
 (setq server-name "main")
 
-;; Try out desktop save mode
-;; Automatically save and restore sessions
-(setq desktop-dirname             "~/.emacs.d/desktop/"
-      desktop-base-file-name      "emacs.desktop"
-      desktop-base-lock-name      "lock"
-      desktop-path                (list desktop-dirname)
-      desktop-save                t
-;;    desktop-files-not-to-save   "^$" ;reload tramp paths
-      desktop-buffers-not-to-save (concat "\\("
-					  "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-					  "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-					  "\\)$")
-      desktop-load-locked-desktop nil
-      )
-(desktop-save-mode 1)
-(add-to-list 'desktop-modes-not-to-save 'dired-mode)
-(add-to-list 'desktop-modes-not-to-save 'Info-mode)
-(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-(add-to-list 'desktop-modes-not-to-save 'DocView-mode)
-
 ;; Get rid of annoying tilde backup files
 (setq make-backup-files nil) 
 
@@ -343,6 +322,63 @@
 
 
 
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;               Desktop Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Automatically save and restore sessions
+(setq desktop-dirname             "~/.emacs.d/"
+      desktop-base-file-name      "emacs.desktop"
+      desktop-base-lock-name      "lock"
+      desktop-path                (list desktop-dirname)
+      desktop-dirname             "~/.emacs.d/"
+      desktop-save                t
+;;    desktop-files-not-to-save   "^$" ;reload tramp paths
+      desktop-buffers-not-to-save (concat "\\("
+					  "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+					  "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+					  "\\)$")
+      desktop-load-locked-desktop nil
+      )
+;; (desktop-save-mode 1)
+;; (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+;; (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+;; (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+;; (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+;; (add-to-list 'desktop-modes-not-to-save 'DocView-mode)
+
+(defun saved-session ()
+  (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
+
+;; use session-restore to restore the desktop manually
+(defun session-restore ()
+  "Restore a saved emacs session."
+  (interactive)
+  (if (saved-session)
+      (desktop-read)
+    (message "No desktop found.")))
+
+;; use session-save to save the desktop manually
+(defun session-save ()
+  "Save an emacs session."
+  (interactive)
+  (if (saved-session)
+      (if (y-or-n-p "Overwrite existing desktop? ")
+	  (desktop-save-in-desktop-dir)
+	(message "Session not saved."))
+  (desktop-save-in-desktop-dir)))
+
+;; ask user whether to restore desktop at start-up
+(add-hook 'after-init-hook
+	  '(lambda ()
+	     (if (saved-session)
+		 (if (y-or-n-p "Restore desktop? ")
+		     (session-restore)))))
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               AUCTEX
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -356,7 +392,7 @@
 ;;               MULTI-TERM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq multi-term-program "/usr/bin/zsh")
-
+;; 
 (defun init-multi-term (new-name dir)
   (let ((mt-buffer-name "*terminal<1>*"))
     (multi-term)
@@ -371,6 +407,8 @@
   (init-multi-term "*zsh:school*" "~proj/")
 )
 (add-hook 'emacs-startup-hook 'init-multi-terms)
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               NEO TREE
