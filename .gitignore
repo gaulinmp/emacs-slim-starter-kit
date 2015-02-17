@@ -4,7 +4,6 @@
 /packages/*
 /eshell/
 /tramp
-/desktop/
 
 # Elisp stuff
 *~$
@@ -14,3 +13,7 @@
 # Packaging
 .cask
 *.dat
+
+# Emacs desktop and lock files
+*.desktop
+lock
