@@ -102,6 +102,7 @@
 			    multi-term
 			    neotree
 			    auctex
+			    iy-go-to-char
 			    )
   )
 ;; Don't config these, they require special sauce.
@@ -429,6 +430,15 @@
 
 
 
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;               IY GO TO CHAR
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-set-key (kbd "C-c f") 'iy-go-up-to-char)
+(global-set-key (kbd "C-c F") 'iy-go-up-to-char-backward)
 
 
 
