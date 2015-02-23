@@ -392,8 +392,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               MULTI-TERM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq multi-term-program "/usr/bin/zsh")
-;; 
+(cond
+ ((eq system-type 'darwin) (setq multi-term-program "/usr/local/homebrew/bin/zsh"))
+ (t  (setq multi-term-program "/usr/bin/zsh"))
+ )
+ 
 (defun init-multi-term (new-name dir)
   (let ((mt-buffer-name "*terminal<1>*"))
     (multi-term)
