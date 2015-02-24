@@ -33,7 +33,6 @@
 ;; Start server so good stuff happens?
 (load "server")
 (unless (server-running-p) (server-start))
-(setq server-name "main")
 
 ;; Get rid of annoying tilde backup files
 (setq make-backup-files nil) 
@@ -418,7 +417,6 @@
 ;;               NEO TREE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key [f8] 'neotree-toggle)
-
 
 
 
