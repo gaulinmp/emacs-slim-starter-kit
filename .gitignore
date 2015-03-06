@@ -17,4 +17,4 @@
 # Emacs desktop and lock files
 *.desktop
 lock
-/auto-save-list/
+/auto-save-list
