@@ -103,7 +103,6 @@
 			    multi-term
 			    neotree
 			    auctex
-			    iy-go-to-char
 			    )
   )
 ;; Don't config these, they require special sauce.
@@ -122,8 +121,16 @@
     (package-refresh-contents))
 
   (dolist (p  required-packages)
-    (when (not (package-installed-p p)) (package-install p))
-    (if (not (memq p noinst-packages)) (require p))
+    (when (not (package-installed-p p)) 
+      (message "Installing package %s ... 0%%" p)
+      (package-install p)
+      (message "Installing package %s ... done!" p)
+      )
+    (when (not (memq p noinst-packages)) 
+      (message "Loading package %s ... 0%%" p)
+      (require p)
+      (message "Loading package %s ... done!" p)
+      )
     )
 
 )
@@ -408,8 +415,9 @@
 (defun init-multi-terms ()
   (interactive)
   (init-multi-term "*zsh*" "~/")
-  (init-multi-term "*zsh:python*" "~pydir/")
-  (init-multi-term "*zsh:school*" "~proj/")
+  (init-multi-term "*zsh:python*" "~/Dropbox/Documents/Programming/Python/")
+  (init-multi-term "*zsh:school*" "~/Dropbox/Documents/School/Projects/")
+  (switch-to-buffer "*scratch*")
 )
 (add-hook 'emacs-startup-hook 'init-multi-terms)
 
@@ -430,18 +438,6 @@
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-
-
-
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;               IY GO TO CHAR
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-set-key (kbd "C-c f") 'iy-go-up-to-char)
-(global-set-key (kbd "C-c F") 'iy-go-up-to-char-backward)
 
 
 
