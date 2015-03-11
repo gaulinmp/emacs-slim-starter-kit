@@ -259,6 +259,7 @@
 (setq org-support-shift-select t)
 
 ;; SAS Stuff
+;; This command is custom, launches with correct lib library (not normal autoexec.sas)
 (setq-default ess-sas-submit-command-options "-noovp -nosyntaxcheck -autoexec /home/gaulinmp/autoexec_lib.sas")
 
 (defun launch-ess-sas-interactive ()
@@ -271,18 +272,6 @@
       (ess-sas-interactive))
   (set-window-buffer w2 "*iESS[SAS]*")
   (set-window-buffer w1 w1name))
-
-;; STATA Stuff
-;; (defun launch-ess-stata-interactive ()
-;;   (interactive)
-;;   (delete-other-windows)
-;;   (setq w1 (selected-window))
-;;   (setq w1name (buffer-name))
-;;   (setq w2 (split-window w1 nil t))
-;;   (if (not (member "*stata*" (mapcar (function buffer-name) (buffer-list))))
-;;       (stata))
-;;   (set-window-buffer w2 "*stata*")
-;;   (set-window-buffer w1 w1name))
 
 ;; ESS Stuff
 (defun custom-ess-launch-hook ()
@@ -303,31 +292,29 @@
          (local-set-key [(shift return)] 'custom-ess-launch-hook))
       )
 
-;;      (require 'ess-site)
-
 ;ESS hangs if you eval long statements;
 (setq ess-eval-visibly-p nil)
 
-;; (org-babel-do-load-languages
-;;  'org-babel-load-languages
-;;  '(
-;;    (clojure . t)
-;;    (ditaa . t)
-;;    (emacs-lisp . t)
-;;    (haskell . t)
-;;    (js . t)
-;;    (perl . t)
-;;    (python . t)
-;;    (R . t)
-;;    (ruby . t)
-;; ;;   (sas . t)  
-;;    (sh . t)
-;;    (sql . t)
-;; ;;   (stata . t)
-;;    )
-;;  )
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(
+   ;; (clojure . t)
+   ;; (ditaa . t)
+   (emacs-lisp . t)
+   ;; (haskell . t)
+   (js . t)
+   ;; (perl . t)
+   (python . t)
+   ;; (R . t)
+   ;; (ruby . t)
+   ;; (sas . t)  
+   (sh . t)
+   (sql . t)
+;;   (stata . t)
+   )
+ )
 
-
+(require 'ess-site)
 
 
 
@@ -461,18 +448,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               FastNav Setup
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-set-key "\M-k" 'fastnav-zap-up-to-char-forward)
-(global-set-key "\M-K" 'fastnav-zap-up-to-char-backward)
-(global-set-key "\M-s" 'fastnav-jump-to-char-forward)
-(global-set-key "\M-S" 'fastnav-jump-to-char-backward)
+(global-set-key  (kbd "C-c d f") 'fastnav-zap-up-to-char-forward)
+(global-set-key (kbd "C-c d b") 'fastnav-zap-up-to-char-backward)
+(global-set-key (kbd "C-c t f") 'fastnav-jump-to-char-forward)
+(global-set-key (kbd "C-c t b") 'fastnav-jump-to-char-backward)
 ;;(global-set-key "\M-r" 'fastnav-replace-char-forward)
 ;;(global-set-key "\M-R" 'fastnav-replace-char-backward)
 ;;(global-set-key "\M-i" 'fastnav-insert-at-char-forward)
 ;;(global-set-key "\M-I" 'fastnav-insert-at-char-backward)
 ;;(global-set-key "\M-j" 'fastnav-execute-at-char-forward)
 ;;(global-set-key "\M-J" 'fastnav-execute-at-char-backward)
-;; (global-set-key "\M-z" 'fastnav-delete-char-forward)
-;; (global-set-key "\M-Z" 'fastnav-delete-char-backward)
+;;(global-set-key "\M-z" 'fastnav-delete-char-forward)
+;;(global-set-key "\M-Z" 'fastnav-delete-char-backward)
 ;;(global-set-key "\M-m" 'fastnav-mark-to-char-forward)
 ;;(global-set-key "\M-M" 'fastnav-mark-to-char-backward)
 ;;(global-set-key "\M-p" 'fastnav-sprint-forward)
@@ -489,81 +476,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("2b5aa66b7d5be41b18cc67f3286ae664134b95ccc4a86c9339c886dfd736132d" "49eea2857afb24808915643b1b5bd093eefb35424c758f502e98a03d0d3df4b1" default)))
- '(elpy-modules
-   (quote
-    (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-highlight-indentation elpy-module-yasnippet elpy-module-sane-defaults))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+ '(ansi-color-names-vector ["#212121" "#CC5542" "#6aaf50" "#7d7c61" "#5180b3" "#DC8CC3" "#9b55c3" "#bdbdb3"])
+ '(custom-safe-themes (quote ("8cf56691a70156f611ac86d0bbcbc7dee7673df195de5918f34bfdc6814ffd39" "2b5aa66b7d5be41b18cc67f3286ae664134b95ccc4a86c9339c886dfd736132d" "49eea2857afb24808915643b1b5bd093eefb35424c758f502e98a03d0d3df4b1" default)))
+ '(elpy-modules (quote (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-highlight-indentation elpy-module-yasnippet elpy-module-sane-defaults)))
+ '(fci-rule-color "#2e2e2e")
+ '(vc-annotate-background "#3b3b3b")
+ '(vc-annotate-color-map (quote ((20 . "#dd5542") (40 . "#CC5542") (60 . "#fb8512") (80 . "#baba36") (100 . "#bdbc61") (120 . "#7d7c61") (140 . "#6abd50") (160 . "#6aaf50") (180 . "#6aa350") (200 . "#6a9550") (220 . "#6a8550") (240 . "#6a7550") (260 . "#9b55c3") (280 . "#6CA0A3") (300 . "#528fd1") (320 . "#5180b3") (340 . "#6380b3") (360 . "#DC8CC3"))))
+ '(vc-annotate-very-old-color "#DC8CC3"))
 
-
-
-
-
-
-
- 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;               ESS STUFF
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; SAS Stuff
-  ;;          (ess-sas-interactive))
-  ;;   (setq-default ess-sas-submit-command-options "-rsasuser -noovp -nosyntaxcheck")
-  ;;     (defun my-ess-start-SAS ()
-  ;;       (interactive)
-  ;;         (delete-other-windows)
-  ;;         (setq w1 (selected-window))
-  ;;         (setq w1name (buffer-name))
-  ;;         (setq w2 (split-window w1 nil t))
-  ;;         (if (not (member "*iESS[SAS]*" (mapcar (function buffer-name) (buffer-list))))
-  ;;           (ess-sas-interactive))
-  ;;         (set-window-buffer w2 "*iESS[SAS]*")
-  ;;         (set-window-buffer w1 w1name))
-
-  ;; ;; STATA Stuff
-  ;;     (defun my-ess-start-STATA ()
-  ;;       (interactive)
-  ;;         (delete-other-windows)
-  ;;         (setq w1 (selected-window))
-  ;;         (setq w1name (buffer-name))
-  ;;         (setq w2 (split-window w1 nil t))
-  ;;         (if (not (member "*stata*" (mapcar (function buffer-name) (buffer-list))))
-  ;;           (stata))
-  ;;         (set-window-buffer w2 "*stata*")
-  ;;         (set-window-buffer w1 w1name))
-
-  ;; ;; ESS Stuff
-  ;;     (defun my-ess-eval ()
-  ;;       (interactive)
-  ;;       (if (equal ess-language "R")
-  ;;         (my-ess-start-R)) ; Launch R
-  ;;       (if (equal ess-language "SAS")
-  ;;         (my-ess-start-SAS)) ; Launch SAS
-  ;;       (if (equal ess-language "STA")
-  ;;         (my-ess-start-STATA)) ; Launch STATA
-
-  ;;       (if (and transient-mark-mode mark-active)
-  ;;           (call-interactively 'ess-eval-region)
-  ;;         (call-interactively 'ess-eval-line-and-step)))
-  ;;     (add-hook 'ess-mode-hook
-  ;;               '(lambda()
-  ;;                  (local-set-key [(shift return)] 'my-ess-eval)))
-  ;;     (add-hook 'inferior-ess-mode-hook
-  ;;               '(lambda()
-  ;;                  (local-set-key [C-up] 'comint-previous-input)
-  ;;                  (local-set-key [C-down] 'comint-next-input)))
-  ;;    (add-hook 'Rnw-mode-hook
-  ;;             '(lambda()
-  ;;                (local-set-key [(shift return)] 'my-ess-eval)))
-
-
-      (require 'ess-site)
-
-;ESS hangs if you eval long statements;
-;;(setq ess-eval-visibly-p nil)
