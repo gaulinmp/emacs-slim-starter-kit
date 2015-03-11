@@ -5,16 +5,14 @@
 /eshell/
 /tramp
 
-# Elisp stuff
-*~$
-# Compiled
-*.elc
-
 # Packaging
 .cask
 *.dat
 
 # Emacs desktop and lock files
-*.desktop
-lock
 /auto-save-list
+*.desktop
+*~$
+*.elc
+lock
+/\.*.el
