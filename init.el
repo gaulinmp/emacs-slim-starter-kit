@@ -145,18 +145,18 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 
- ;; From helm wiki for eshell completion
-(add-hook 'eshell-mode-hook 
-          #'(lambda ()
-              (define-key eshell-mode-map
-                [remap eshell-pcomplete]
-                'helm-esh-pcomplete)))
-;; Add eshell helm history 
-(add-hook 'eshell-mode-hook
-      #'(lambda ()
-          (define-key eshell-mode-map
-        (kbd "M-p")
-        'helm-eshell-history)))
+;;  ;; From helm wiki for eshell completion
+;; (add-hook 'eshell-mode-hook 
+;;           #'(lambda ()
+;;               (define-key eshell-mode-map
+;;                 [remap eshell-pcomplete]
+;;                 'helm-esh-pcomplete)))
+;; ;; Add eshell helm history 
+;; (add-hook 'eshell-mode-hook
+;;       #'(lambda ()
+;;           (define-key eshell-mode-map
+;;         (kbd "M-p")
+;;         'helm-eshell-history)))
 
 ;; Some suggestions from http://tuhdo.github.io/helm-intro.html
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
@@ -164,8 +164,8 @@
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
 ;; Probably does what it sounds like. Who uses curl in emacs?
-(when (executable-find "curl")
-  (setq helm-google-suggest-use-curl-p t))
+;; (when (executable-find "curl")
+;;   (setq helm-google-suggest-use-curl-p t))
 
 ;; Make helm not take over your editor.
 (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
@@ -183,7 +183,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                     Mac Stuff I guess
+;;                     Mac Stuff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (cond
  ((eq system-type 'darwin)
@@ -234,7 +234,7 @@
    (idle-highlight-mode t))
 
 (add-hook 'emacs-lisp-mode-hook 'idle-highlight-hook)
-(add-hook 'python-mode 'idle-highlight-hook)
+(add-hook 'python-mode-hook 'idle-highlight-hook)
 ;; (add-hook 'org-mode-hook 'my-coding-hook)
 
 
@@ -247,8 +247,15 @@
 ;;               ORG MODE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Autocomplete for orgmode
-(require 'org-ac)
+;; (require 'org-ac)  ; Already loaded above
+(message "Loading org-mode config ... start")
 (org-ac/config-default)
+(message "Loading org-mode config ... config-default")
+
+(setq org-agenda-files (list "~/Dropbox/Documents/Personal/todo.org"))
+(dolist (p org-agenda-files)
+  (find-file p)
+  )
 
 ;; Word wrap org mode!
 (setq org-startup-truncated nil)
@@ -256,8 +263,22 @@
 ;; C-c C-e o exports to docx by default. Must install libreoffice.
 (setq org-export-odt-preferred-output-format "docx")
 
+;; Shift arrows selects text (except in headings)
 (setq org-support-shift-select t)
 
+;; Key bindings
+(global-set-key (kbd "C-c l") 'copy-line)
+
+(message "Loading org-mode config ... done!")
+
+
+
+
+ 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;               ESS Stuff
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(message "Loading ess config ... start")
 ;; SAS Stuff
 ;; This command is custom, launches with correct lib library (not normal autoexec.sas)
 (setq-default ess-sas-submit-command-options "-noovp -nosyntaxcheck -autoexec /home/gaulinmp/autoexec_lib.sas")
@@ -273,7 +294,6 @@
   (set-window-buffer w2 "*iESS[SAS]*")
   (set-window-buffer w1 w1name))
 
-;; ESS Stuff
 (defun custom-ess-launch-hook ()
   (interactive)
   (cond
@@ -295,6 +315,8 @@
 ;ESS hangs if you eval long statements;
 (setq ess-eval-visibly-p nil)
 
+(message "Loading ess config ... set custom hooks")
+
 (org-babel-do-load-languages
  'org-babel-load-languages
  '(
@@ -314,7 +336,9 @@
    )
  )
 
+(message "Loading ess config ... set custom languages")
 (require 'ess-site)
+(message "Loading ess config ... done!")
 
 
 
@@ -324,55 +348,58 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               Desktop Mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Automatically save and restore sessions
-(setq desktop-dirname             "~/.emacs.d/"
-      desktop-base-file-name      "emacs.desktop"
-      desktop-base-lock-name      "lock"
-      desktop-path                (list desktop-dirname)
-      desktop-dirname             "~/.emacs.d/"
-      desktop-save                t
-;;    desktop-files-not-to-save   "^$" ;reload tramp paths
-      desktop-buffers-not-to-save (concat "\\("
-					  "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-					  "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-					  "\\)$")
-      desktop-load-locked-desktop nil
-      )
-;; (desktop-save-mode 1)
-;; (add-to-list 'desktop-modes-not-to-save 'dired-mode)
-;; (add-to-list 'desktop-modes-not-to-save 'Info-mode)
-;; (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-;; (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-;; (add-to-list 'desktop-modes-not-to-save 'DocView-mode)
+;; I now just load the todo.org file, with links to the files I care about.
+;; (message "Loading desktop config ... start")
+;; ;; Automatically save and restore sessions
+;; (setq desktop-dirname             "~/.emacs.d/"
+;;       desktop-base-file-name      "emacs.desktop"
+;;       desktop-base-lock-name      "lock"
+;;       desktop-path                (list desktop-dirname)
+;;       desktop-dirname             "~/.emacs.d/"
+;;       desktop-save                t
+;; ;;    desktop-files-not-to-save   "^$" ;reload tramp paths
+;;       desktop-buffers-not-to-save (concat "\\("
+;; 					  "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+;; 					  "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+;; 					  "\\)$")
+;;       desktop-load-locked-desktop nil
+;;       )
+;; ;; (desktop-save-mode 1)
+;; ;; (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+;; ;; (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+;; ;; (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+;; ;; (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+;; ;; (add-to-list 'desktop-modes-not-to-save 'DocView-mode)
 
-(defun saved-session ()
-  (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
+;; (defun saved-session ()
+;;   (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
 
-;; use session-restore to restore the desktop manually
-(defun session-restore ()
-  "Restore a saved emacs session."
-  (interactive)
-  (if (saved-session)
-      (desktop-read)
-    (message "No desktop found.")))
+;; ;; use session-restore to restore the desktop manually
+;; (defun session-restore ()
+;;   "Restore a saved emacs session."
+;;   (interactive)
+;;   (if (saved-session)
+;;       (desktop-read)
+;;     (message "No desktop found.")))
 
-;; use session-save to save the desktop manually
-(defun session-save ()
-  "Save an emacs session."
-  (interactive)
-  (if (saved-session)
-      (if (y-or-n-p "Overwrite existing desktop? ")
-	  (desktop-save-in-desktop-dir)
-	(message "Session not saved."))
-  (desktop-save-in-desktop-dir)))
+;; ;; use session-save to save the desktop manually
+;; (defun session-save ()
+;;   "Save an emacs session."
+;;   (interactive)
+;;   (if (saved-session)
+;;       (if (y-or-n-p "Overwrite existing desktop? ")
+;; 	  (desktop-save-in-desktop-dir)
+;; 	(message "Session not saved."))
+;;   (desktop-save-in-desktop-dir)))
 
-;; ask user whether to restore desktop at start-up
-(add-hook 'after-init-hook
-	  '(lambda ()
-	     (if (saved-session)
-		 (if (y-or-n-p "Restore desktop? ")
-		     (session-restore)))))
+;; ;; ask user whether to restore desktop at start-up
+;; (add-hook 'after-init-hook
+;; 	  '(lambda ()
+;; 	     (if (saved-session)
+;; 		 (if (y-or-n-p "Restore desktop? ")
+;; 		     (session-restore)))))
 
+;; (message "Loading desktop config ... done!")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -387,17 +414,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               MULTI-TERM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(message "Loading multi-term config ... start")
 (cond
  ((eq system-type 'darwin) (setq multi-term-program "/usr/local/homebrew/bin/zsh"))
  (t  (setq multi-term-program "/usr/bin/zsh"))
  )
  
 (defun init-multi-term (new-name dir)
+  (message "Loading zsh at %s ... start" dir)
   (let ((mt-buffer-name "*terminal<1>*"))
     (multi-term)
     (comint-send-string (get-buffer-process mt-buffer-name) (format "cd %s\n" dir))
     (with-current-buffer mt-buffer-name
-      (rename-buffer new-name))))
+      (rename-buffer new-name)))
+  (message "Loading zsh at %s ... done!" dir)
+  )
 
 (defun init-multi-terms ()
   (interactive)
@@ -408,6 +439,7 @@
 )
 (add-hook 'emacs-startup-hook 'init-multi-terms)
 
+(message "Loading multi-term config ... done!")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -433,12 +465,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(message "Loading theme config ... start")
 (load-theme 'ample-zen t)
 (set-frame-parameter (selected-frame) 'alpha '(85 50))
 (add-to-list 'default-frame-alist '(alpha 85 50))
 
 ;; My personal preference is to use line numbers
 (global-linum-mode 1)
+(message "Loading theme config ... done!")
 
 
 

@@ -7,7 +7,6 @@
 
 # Packaging
 .cask
-*.dat
 
 # Emacs desktop and lock files
 /auto-save-list
