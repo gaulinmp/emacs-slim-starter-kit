@@ -103,6 +103,8 @@
 			    multi-term
 			    neotree
 			    auctex
+			    projectile
+			    helm-projectile
 			    )
   )
 ;; Don't config these, they require special sauce.
@@ -176,11 +178,11 @@
       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
       helm-ff-file-name-history-use-recentf t)
 
-
-
-
-
-
+;; Projectile and Helm Projectile
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
+(setq projectile-switch-project-action 'helm-projectile)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -262,7 +264,7 @@
 (setq org-startup-truncated nil)
 
 ;; C-c C-e o exports to docx by default. Must install libreoffice.
-(setq org-export-odt-preferred-output-format "docx")
+(setq org-odt-preferred-output-format "docx")
 
 ;; Shift arrows selects text (except in headings)
 (setq org-support-shift-select t)
@@ -280,9 +282,10 @@
 ;;               ESS Stuff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (message "Loading ess config ... start")
-;; SAS Stuff
-;; This command is custom, launches with correct lib library (not normal autoexec.sas)
+;; This command is custom to me, launches with correct lib library (not normal autoexec.sas)
 (setq-default ess-sas-submit-command-options "-noovp -nosyntaxcheck -autoexec /home/gaulinmp/autoexec_lib.sas")
+(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
 
 (defun launch-ess-sas-interactive ()
   (interactive)
@@ -343,66 +346,6 @@
 
 
 
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;               Desktop Mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; I now just load the todo.org file, with links to the files I care about.
-;; (message "Loading desktop config ... start")
-;; ;; Automatically save and restore sessions
-;; (setq desktop-dirname             "~/.emacs.d/"
-;;       desktop-base-file-name      "emacs.desktop"
-;;       desktop-base-lock-name      "lock"
-;;       desktop-path                (list desktop-dirname)
-;;       desktop-dirname             "~/.emacs.d/"
-;;       desktop-save                t
-;; ;;    desktop-files-not-to-save   "^$" ;reload tramp paths
-;;       desktop-buffers-not-to-save (concat "\\("
-;; 					  "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-;; 					  "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-;; 					  "\\)$")
-;;       desktop-load-locked-desktop nil
-;;       )
-;; ;; (desktop-save-mode 1)
-;; ;; (add-to-list 'desktop-modes-not-to-save 'dired-mode)
-;; ;; (add-to-list 'desktop-modes-not-to-save 'Info-mode)
-;; ;; (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-;; ;; (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-;; ;; (add-to-list 'desktop-modes-not-to-save 'DocView-mode)
-
-;; (defun saved-session ()
-;;   (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
-
-;; ;; use session-restore to restore the desktop manually
-;; (defun session-restore ()
-;;   "Restore a saved emacs session."
-;;   (interactive)
-;;   (if (saved-session)
-;;       (desktop-read)
-;;     (message "No desktop found.")))
-
-;; ;; use session-save to save the desktop manually
-;; (defun session-save ()
-;;   "Save an emacs session."
-;;   (interactive)
-;;   (if (saved-session)
-;;       (if (y-or-n-p "Overwrite existing desktop? ")
-;; 	  (desktop-save-in-desktop-dir)
-;; 	(message "Session not saved."))
-;;   (desktop-save-in-desktop-dir)))
-
-;; ;; ask user whether to restore desktop at start-up
-;; (add-hook 'after-init-hook
-;; 	  '(lambda ()
-;; 	     (if (saved-session)
-;; 		 (if (y-or-n-p "Restore desktop? ")
-;; 		     (session-restore)))))
-
-;; (message "Loading desktop config ... done!")
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               AUCTEX
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -434,8 +377,8 @@
 (defun init-multi-terms ()
   (interactive)
   (init-multi-term "*zsh*" "~/")
-  (init-multi-term "*zsh:python*" "~/Dropbox/Documents/Programming/Python/")
-  (init-multi-term "*zsh:school*" "~/Dropbox/Documents/School/Projects/")
+  ;; (init-multi-term "*zsh:python*" "~/Dropbox/Documents/Programming/Python/")
+  ;; (init-multi-term "*zsh:school*" "~/Dropbox/Documents/School/Projects/")
   (switch-to-buffer "*scratch*")
 )
 (add-hook 'emacs-startup-hook 'init-multi-terms)
