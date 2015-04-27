@@ -50,7 +50,9 @@
 ;;                     Universal Key Remapping
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "C-z") 'undo)
-
+;; Control scroll zooms
+(global-set-key [C-mouse-4] 'text-scale-increase)
+(global-set-key [C-mouse-5] 'text-scale-decrease)
 
 
 
@@ -227,6 +229,40 @@
 
 
 
+ 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;               MULTI-TERM
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(message "Loading multi-term config ... start")
+(cond
+ ((eq system-type 'darwin) (setq multi-term-program "/usr/local/homebrew/bin/zsh"))
+ (t  (setq multi-term-program "/usr/bin/zsh"))
+ )
+ 
+(defun init-multi-term (new-name dir)
+  (message "Loading zsh at %s ... start" dir)
+  (let ((mt-buffer-name "*terminal<1>*"))
+    (multi-term)
+    (comint-send-string (get-buffer-process mt-buffer-name) (format "cd %s\n" dir))
+    (with-current-buffer mt-buffer-name
+      (rename-buffer new-name)))
+  (message "Loading zsh at %s ... done!" dir)
+  )
+(init-multi-term "*zsh*" "~/")
+  
+;; (defun init-multi-terms ()
+;;   (interactive)
+;;   (init-multi-term "*zsh*" "~/")
+;;   ;; (init-multi-term "*zsh:python*" "~/Dropbox/Documents/Programming/Python/")
+;;   ;; (init-multi-term "*zsh:school*" "~/Dropbox/Documents/School/Projects/")
+;;   ;;(switch-to-buffer "*scratch*")
+;; )
+;; (add-hook 'emacs-startup-hook 'init-multi-terms)
+
+(message "Loading multi-term config ... done!")
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               HIGHLIGHT MODE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -353,37 +389,6 @@
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
 
-
- 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;               MULTI-TERM
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(message "Loading multi-term config ... start")
-(cond
- ((eq system-type 'darwin) (setq multi-term-program "/usr/local/homebrew/bin/zsh"))
- (t  (setq multi-term-program "/usr/bin/zsh"))
- )
- 
-(defun init-multi-term (new-name dir)
-  (message "Loading zsh at %s ... start" dir)
-  (let ((mt-buffer-name "*terminal<1>*"))
-    (multi-term)
-    (comint-send-string (get-buffer-process mt-buffer-name) (format "cd %s\n" dir))
-    (with-current-buffer mt-buffer-name
-      (rename-buffer new-name)))
-  (message "Loading zsh at %s ... done!" dir)
-  )
-
-(defun init-multi-terms ()
-  (interactive)
-  (init-multi-term "*zsh*" "~/")
-  ;; (init-multi-term "*zsh:python*" "~/Dropbox/Documents/Programming/Python/")
-  ;; (init-multi-term "*zsh:school*" "~/Dropbox/Documents/School/Projects/")
-  (switch-to-buffer "*scratch*")
-)
-(add-hook 'emacs-startup-hook 'init-multi-terms)
-
-(message "Loading multi-term config ... done!")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
