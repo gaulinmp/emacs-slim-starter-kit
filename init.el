@@ -6,7 +6,8 @@
 ;;; (just make sure you don't have a .emacs file in $HOME)
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(setenv "PATH" (concat "/home/gaulinmp/anaconda/bin:" (getenv "PATH")))
+(setq exec-path (append '("/home/gaulinmp/anaconda/bin") exec-path))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                     STARTUP INIT
@@ -89,7 +90,10 @@
       )
 
 ;; Install these packages!
-(defvar required-packages '(ample-zen-theme
+(defvar required-packages '(better-defaults
+			    elpy
+                            flycheck
+			    ample-zen-theme
 			    ess
 			    find-file-in-project
 			    fastnav
@@ -111,6 +115,8 @@
   )
 ;; Don't config these, they require special sauce.
 (defvar noinst-packages '(helm
+			  elpy
+                          flycheck
 			  ess
                           ample-zen-theme
 			  auctex
@@ -137,7 +143,18 @@
       )
     )
 
-)
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                     PYTHON: elpy
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(elpy-enable)
+(elpy-use-ipython)
+
+;; Check syntax and things on the fly
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                     HELM INIT
@@ -248,7 +265,7 @@
       (rename-buffer new-name)))
   (message "Loading zsh at %s ... done!" dir)
   )
-(init-multi-term "*zsh*" "~/")
+;; (init-multi-term "*zsh*" "~/")
   
 ;; (defun init-multi-terms ()
 ;;   (interactive)
@@ -460,6 +477,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;               Custom crap from emacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq magit-last-seen-setup-instructions "1.4.0")
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
